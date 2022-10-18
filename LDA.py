@@ -15,15 +15,6 @@ class LDAData(ProcessedData):
 
     def process(self, components_percent=0.7, eigenvalue_percent=0.7):
         if len(self.label_df) > 1:
-            #covMatrix = self.feature_df.cov()
-
-            #featValue, featVec = np.linalg.eig(covMatrix)
-            #index = np.argsort(-featValue)
-            #eigenvalue_num = math.trunc(len(self.feature_df.values[0]) * eigenvalue_percent)
-            #selected_values = featValue[index[:eigenvalue_num]]
-            #selected_vectors = featVec.T[index[:eigenvalue_num]].T
-            #U, S, selected_vectors = np.linalg.svd(self.feature_df)
-
             Sw = np.zeros((self.feature_df.shape[1], self.feature_df.shape[1]))
             for i in range(2):
                 datai = self.feature_df[(self.label_df == i).values]
@@ -41,7 +32,6 @@ class LDAData(ProcessedData):
                 SBi = Ni * np.mat(ui - u).T.dot( np.mat(ui - u))
                 SB += SBi
 
-            #S = np.linalg.inv(Sw) * SB
             S=SB-Sw
             featValue, featVec = np.linalg.eig(S)  
             index = np.argsort(-featValue)
